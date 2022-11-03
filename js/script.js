@@ -179,8 +179,7 @@ function generateAuthors(){
     const author = article.getAttribute('data-author');
     authors.add(author);
 
-    const linkHTML = '<a href="#author-' + author.replace(' ', '') + '"><span>' + author + '</span></a>';
-
+    const linkHTML = generateAuthorLink(author);
     authorWrapper.innerHTML = linkHTML;
 
   /* END LOOP: for every article: */
@@ -190,9 +189,13 @@ function generateAuthors(){
   authorList.innerHTML = '';
 
   for (const author of authors) {
-    const linkHTML = '<li>' + author + '</li>';
+    const linkHTML = '<li>' + generateAuthorLink(author) + '</li>';
     authorList.innerHTML += linkHTML;
   }
+}
+
+function generateAuthorLink(author) {
+  return '<a href="#author-' + author.replace(' ', '') + '"><span>' + author + '</span></a>';
 }
 
 generateAuthors();
