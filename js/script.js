@@ -38,11 +38,12 @@ const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author';
+  optArticleAuthorSelector = '.post-author',
+  optAuthorListSelector = '.authors';
 
 function generateTitleLinks(customSelector){
   if (customSelector == undefined)
-    customSelector = ''
+    customSelector = '';
 
   /* remove contents of titleList */
   const titleList = document.querySelector(optTitleListSelector);
@@ -185,21 +186,15 @@ function generateAuthors(){
   /* END LOOP: for every article: */
   }
 
-  for (const author of authors) {
-    console.log('Author: ', author);
-     //   /* START LOOP: for each author */
-  // for (const author of authors) {
-    
-  //   const linkHTML = '<a href="#author-' + author + '"><span>' + author + '</span></a>';
-    
-  //   /* add generated code to html variable */
-  //   html = html + linkHTML;
+  const authorList = document.querySelector(optAuthorListSelector);
+  authorList.innerHTML = '';
 
-  //   /* END LOOP: for each tag */
-  // }
-  /* insert HTML of all the links into the tags wrapper */
+  for (const author of authors) {
+    const linkHTML = '<li>' + author + '</li>';
+    authorList.innerHTML += linkHTML;
   }
 }
+
 generateAuthors();
 
 function authorClickHandler(event){
