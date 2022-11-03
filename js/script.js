@@ -195,7 +195,7 @@ function generateAuthors(){
 }
 
 function generateAuthorLink(author) {
-  return '<a href="#author-' + author.replace(' ', '') + '"><span>' + author + '</span></a>';
+  return '<a href="#author-' + author.replace(' ', '_') + '"><span>' + author + '</span></a>';
 }
 
 generateAuthors();
@@ -207,8 +207,7 @@ function authorClickHandler(event){
   const clickedElement = this;
   /* make a new constant "href" and read the attribute "href" of the clicked element */
   const href = clickedElement.getAttribute('href');
-  /* make a new constant "author" and extract author from the "href" constant */
-  const author = href.replace('#author-', '');
+ 
   /* find all tag links with class active */
   const activeLinks = document.querySelectorAll('a.active[href^="#author-"]'); 
   /* START LOOP: for each active author link */
@@ -227,9 +226,13 @@ function authorClickHandler(event){
   /* END LOOP: for each found author link */
   }
 
-  /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-author~="' + author + '"]')
+  /* make a new constant "author" and extract author from the "href" constant */
+  const author = href.replace('#author-', '').replace('_', ' ');
+
+  /* execute function "generateAuthorLinks" with article selector as argument */
+  generateTitleLinks('[data-author="' + author + '"]');
 }
+
 
 function addClickListenersToAuthors(){  
   /* find all links to authors */
