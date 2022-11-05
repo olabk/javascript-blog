@@ -9,7 +9,8 @@ const templates = {
   articleLink: compileTemplate('#template-article-link'),
   tagLink: compileTemplate('#template-tag-link'),
   authorLink: compileTemplate('#template-author-link'),
-  tagCloud: compileTemplate('#template-tag-cloud-link')
+  tagCloud: compileTemplate('#template-tag-cloud-link'),
+  authorList: compileTemplate('#template-author-list-link')
 };
 
 const opts = {
@@ -253,23 +254,20 @@ function generateAuthors(){
 
     authorWrapper.innerHTML = templates.authorLink({ authorId: author.replace(' ', '_'), author });
   }
-
-  const authorList = document.querySelector(opts.authorListSelector);
-  authorList.innerHTML = '';
+  
+  const authorData ={
+    authors:[]
+  };
     
   for (const author in allAuthors) {
-    const linkHTML = '<li>' + generateAuthorLink(author, allAuthors[author]) + '</li>';
-    authorList.innerHTML += linkHTML;
-  }
-}
+    const count = allAuthors[author];
+    const authorId = author.replace(' ', '_');
 
-function generateAuthorLink(author, articleCount) {
-  let count = '';
-  if (articleCount !== undefined){
-    count = ' (' + articleCount + ')';
+    authorData.authors.push({author, count, authorId});
   }
 
-  return '<a href="#author-' + author.replace(' ', '_') + '"><span>' + author + count + '</span></a>';
+  const authorList = document.querySelector(opts.authorListSelector);
+  authorList.innerHTML = templates.authorList(authorData);
 }
 
 generateAuthors();
