@@ -1,5 +1,11 @@
 'use strict';
 
+const templates = {
+  articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+  tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML)
+};
+
 const opts = {
   articleSelector : '.post',
   titleSelector : '.post-title',
@@ -70,7 +76,8 @@ function generateTitleLinks(customSelector){
     const articleTitle = titleElement.innerHTML;
     
     /* create HTML of the link */
-    const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+    const linkHTMLData = {id: articleId, title: articleTitle};
+    const linkHTML = templates.articleLink(linkHTMLData);
 
     /* insert link into titleList */
     //titleList.innerHTML = titleList.innerHTML + linkHTML;
@@ -134,8 +141,8 @@ function generateTags(){
 
     /* START LOOP: for each tag */
     for(let tag of tags) {
-      /* generate HTML of the link */
-      const linkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>';
+      const linkHTML = templates.tagLink({tag: tag});
+
       /* add generated code to html variable */
       html = html + linkHTML;
   
@@ -198,7 +205,7 @@ function tagClickHandler(event){
   }
 
   /* execute function "generateTitleLinks" with article selector as argument */
-  generateTitleLinks('[data-tags~="' + tag + '"]')
+  generateTitleLinks('[data-tags~="' + tag + '"]');
 }
 
 function addClickListenersToTags(){  
@@ -219,7 +226,6 @@ function generateAuthors(){
   /* find all articles */
   const articles = document.querySelectorAll('article');
   
- 
   const allAuthors = {};
 
   /* START LOOP: for every article: */
@@ -237,8 +243,7 @@ function generateAuthors(){
       allAuthors[author]++;
     }
 
-    const linkHTML = generateAuthorLink(author);
-    authorWrapper.innerHTML = linkHTML;
+    authorWrapper.innerHTML = templates.authorLink({ authorId: author.replace(' ', '_'), author });
   }
 
   const authorList = document.querySelector(opts.authorListSelector);
