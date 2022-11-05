@@ -8,7 +8,8 @@ function compileTemplate(selector){
 const templates = {
   articleLink: compileTemplate('#template-article-link'),
   tagLink: compileTemplate('#template-tag-link'),
-  authorLink: compileTemplate('#template-author-link')
+  authorLink: compileTemplate('#template-author-link'),
+  tagCloud: compileTemplate('#template-tag-cloud-link')
 };
 
 const opts = {
@@ -170,14 +171,16 @@ function generateTags(){
   
   const tagsParams = calculateTagsParams(allTags);
    
-  let allTagsHTML = '';
-
+  const tagCloud = {
+    tags: []
+  };
+  
   for(let tag in allTags){
     const tagClass = calculateTagClass (allTags[tag], tagsParams);
-    allTagsHTML += '<a class="'+tagClass+'" href="#tag-' + tag + '"><span>' + tag + '</span></a> ';
+    tagCloud.tags.push({ tagClass, tag });
   }
 
-  tagList.innerHTML = allTagsHTML;
+  tagList.innerHTML = templates.tagCloud(tagCloud);
 }
 
 generateTags();
