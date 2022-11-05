@@ -231,21 +231,24 @@ function generateAuthors(){
 
     const linkHTML = generateAuthorLink(author);
     authorWrapper.innerHTML = linkHTML;
-
-  /* END LOOP: for every article: */
   }
 
   const authorList = document.querySelector(optAuthorListSelector);
   authorList.innerHTML = '';
 
   for (const author of authors) {
-    const linkHTML = '<li>' + generateAuthorLink(author) + '</li>';
+    const linkHTML = '<li>' + generateAuthorLink(author, 0) + '</li>';
     authorList.innerHTML += linkHTML;
   }
 }
 
-function generateAuthorLink(author) {
-  return '<a href="#author-' + author.replace(' ', '_') + '"><span>' + author + '</span></a>';
+function generateAuthorLink(author, articleCount) {
+  let count = '';
+  if (articleCount !== undefined){
+    count = ' (' + articleCount + ')';
+  }
+
+  return '<a href="#author-' + author.replace(' ', '_') + '"><span>' + author + count + '</span></a>';
 }
 
 generateAuthors();
