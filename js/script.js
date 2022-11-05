@@ -1,9 +1,14 @@
 'use strict';
 
+/** Compiles a given template using Handlebars templates. */
+function compileTemplate(selector){
+  return Handlebars.compile(document.querySelector(selector).innerHTML);
+}
+
 const templates = {
-  articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
-  tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
-  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML)
+  articleLink: compileTemplate('#template-article-link'),
+  tagLink: compileTemplate('#template-tag-link'),
+  authorLink: compileTemplate('#template-author-link')
 };
 
 const opts = {
